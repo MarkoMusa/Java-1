@@ -11,7 +11,8 @@ public class Zadatak_03 {
 
    
     public static void main(String[] args) {
-
+        divideAndDisplay(27, 13);
+        divideAndDisplay(27, 4);
         divideAndDisplay(27, 7);
         divideAndDisplay(25, 7);
         divideAndDisplay(28, 7);
@@ -23,13 +24,17 @@ public class Zadatak_03 {
         long end;
         
         System.out.print(a + " / " + b + " = ");
+        int[] result = new int[2];
         
-        start = System.nanoTime();
-        int[] result = divide(a, b);
-        end = System.nanoTime();
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+             result = divide(a, b);
+        }
+        end = System.currentTimeMillis();
         
-        System.out.println(result[0] + "." + result[1]);
-        System.out.println("Execution time (nano sec): " + (end - start));
+        System.out.println(String.format("%d.%03d",result[0],result[1]));
+        
+        System.out.println("Execution time (ms sec): " + (end - start));
     }
     
     private static int[] divide(int a, int b) {
@@ -46,11 +51,8 @@ public class Zadatak_03 {
         }
         
         // Leftover in a is the remainder. Multiply by 1000 so we can devide again
-        // and get decimal part. Multiplication is iteration of addition.
-        int tmp = a;
-        for (int i = 0; i < 1000; i++) {
-            a += tmp;
-        }
+        // and get decimal part. 
+        a *= 10000;
 
         // Repeat to get decimal part
         while (a > b) {
@@ -58,6 +60,10 @@ public class Zadatak_03 {
             result[1]++;
         }
         
+        if (result[1] % 5 > 0) {
+            result[1]++;
+            result[1] /= 10;
+        }
         return result;
     }
 }
